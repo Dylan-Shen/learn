@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css" media="screen">
+		*{margin: 0;padding: 0;}
+		.tree-box{width: 2px;background: #000; margin: 0 auto;position: relative;}
+		.tree-box1{position: absolute;width: 50px;height: 2px;background: #000;}
+		.tree-circle{position: absolute;width: 20px;height: 20px;background: #ff0;border-radius: 50%;}
+		.tree-text{position: absolute;width: 200px;}
+		.tree-text h5{line-height: 20px;width: 200px;}
+		.tree-text p{line-height: 20px;width: 200px;font-size: 12px;}
+	</style>
+	<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+	<div class="tree-box"></div>
+	<script>
+		var course = 
+			[{
+				"time":"2016.1.22",
+				"active":"音乐剧剧组人员在上海举办见面会，现场出现上百剧迷和剧组互动。",
+				"center":true
+			},{
+				"time":"2015.9.15",
+				"active":"在全民创造发起众筹",
+				"center":true
+			},{
+				"time":"2015.1.15",
+				"active":"所有演员和剧组正式成立，开始第一轮演练。",
+				"center":false
+			},{
+				"time":"2015.9.15",
+				"active":"在全民创造发起众筹",
+				"center":false
+			},{
+				"time":"2015.9.15",
+				"active":"在全民创造发起众筹",
+				"center":true
+			},{
+				"time":"2015.1.15",
+				"active":"所有演员和剧组正式成立，开始第一轮演练。",
+				"center":false
+			}];
+		var addTree = function(){
+			if($('.tree-box').find('.tree-text').length < 2){
+				$('.tree-box').css({height:course.length*120});
+				for( var i = 0 ; i < course.length ; i ++ ){
+					$('<div/>',{
+						class:'tree-box1',
+					}).css({top:50+120*i}).appendTo($('.tree-box'));
+					$('<div/>',{
+						class:'tree-circle',
+					}).css({top:40+120*i,left:-10}).appendTo($('.tree-box'));
+
+					$('<div/>',{
+						class:'tree-text',
+					}).css({top:40+120*i}).appendTo($('.tree-box'));
+				}
+				var index = 0;
+				for( var i = 0 ; i < course.length ; i ++ ){
+					$('<h5/>').text(course[i].time).appendTo($('.tree-text')[i]);
+					$('<p/>').text(course[i].active).appendTo($('.tree-text')[i]);
+					if(course[i].center == false){
+						if(index%2 == 0){
+							$('.tree-box1').eq(i).css({left:-50});
+							$('.tree-text').eq(i).css({left:-250,"text-align":"right"})
+						}if(index%2 == 1){
+							$('.tree-box1').eq(i).css({left:0});
+							$('.tree-text').eq(i).css({left:50,"text-align":"left"})
+						}
+						index++;
+					}else{
+						$('.tree-box1').eq(i).hide();
+						$('.tree-circle').eq(i).hide();
+						$('.tree-text').eq(i).css({left:-110,"text-align":"center","padding":"10px","background":"#ff4200","border-radius":"4px"}).find('p').css({color:'#fff'})
+					}
+				}
+			}
+		}
+		addTree();
+	</script>
+</body>
+</html>
