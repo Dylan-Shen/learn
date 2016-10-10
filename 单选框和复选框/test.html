@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="angular.js"></script>
+	<style type="text/css" media="screen">
+		*{margin: 0;padding: 0;}
+		.radio-box{
+			display:inline-block;position:relative;
+			height:25px;
+			line-height:25px;
+			padding-left:20px;
+			cursor:pointer;
+			margin-right: 20px;
+			}
+		.radio-box .radio.radioBoxBj{
+			background:url(show.png) center center no-repeat;
+			border:1px solid #ff4200
+		}
+		.radio-box .radio{
+			border:1px solid #d9d9d5;
+			display:inline-block;
+			width:15px;
+			height:15px;
+			box-sizing:
+			border-box;
+			position:absolute;
+			top:5px;
+			left:0
+		}
+	</style>
+</head>
+<body ng-controller="cont">
+	<!-- 复选框,重复点击样式改变-->
+	<span ng-repeat="x in filmClassName" class="radio-box" ng-click="radioBoxFn($index)">
+		<span class="radio" ng-class="{radioBoxBj:myShow[$index]}"></span>
+		{{x}}
+	</span>
+	<br>
+	<!-- ng-click 函数里传入一个不重复的参数(标记当前选项) 
+		复选框$index是repeat序号
+		单选按钮太少,没用repeat,手动入参-->
+
+
+
+	<!-- 单选框 2选1,重复点击样式不取消 -->
+	<span class="radio-box" ng-click="radioBoxFn1(1)">
+		<!-- ng-class 一个取true时生效,一个false生效 -->
+		<span class="radio"  ng-class="{radioBoxBj:radioBoxFn1Show}"></span>男
+	</span>			
+	<span class="radio-box" ng-click="radioBoxFn1(2)">
+		<span class="radio"  ng-class="{radioBoxBj:!radioBoxFn1Show}"></span>女
+	</span>
+
+	<script>
+		var app = angular.module('app', []);
+		app.controller('cont', ['$scope', function($scope){
+			//复选框
+			$scope.filmClassName = ["选项0","选项1","选项2","选项3","选项4","选项5","选项6","选项7","选项8","选项9"];
+			//全部默认设置为不选中状态 false
+			$scope.myShow = [];
+			for( var i = 0 ; i < $scope.filmClassName.length ; i ++ ){
+				$scope.myShow[i] = false;
+			}
+			///点击时取反
+			$scope.radioBoxFn = function(index){
+				$scope.myShow[index] = !$scope.myShow[index];
+			}
+			// 设置默认选中 true
+			$scope.myShow[0] = $scope.myShow[7] = true;
+
+
+			//单选框
+			//设置默认
+			$scope.radioBoxFn1Show = true;
+			$scope.radioBoxFn1Index = 0;
+			$scope.radioBoxFn1 = function(index){
+				//比复选框多个判断,非重复点击时改变样式
+				if($scope.radioBoxFn1Index != index){
+					$scope.radioBoxFn1Index = index;
+					$scope.radioBoxFn1Show = !$scope.radioBoxFn1Show;
+				}
+			}
+		}])
+	</script>
+</body>
+</html>
